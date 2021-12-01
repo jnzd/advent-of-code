@@ -27,17 +27,21 @@
 
 -- Consider sums of a three-measurement sliding window. How many sums are larger than the previous sum?
 
-import System.IO
+tripleSums :: [Int] -> [Int]
+tripleSums [] = []
+tripleSums [_] = []
+tripleSums [_,_] = []
+tripleSums (x:y:z:xs) = (x + y + z) : tripleSums (y:z:xs)
 
-
+elementLargerThanPrevious :: [Int] -> Int
+elementLargerThanPrevious [] = 0
+elementLargerThanPrevious [x] = 0
+elementLargerThanPrevious (x:y:xs) = if x < y then 1 + elementLargerThanPrevious (y:xs) else elementLargerThanPrevious (y:xs)
 
 main :: IO ()
 main = do
     s <- readFile "./in.txt"
-    let input = map read $ words s :: [Int]
-    let num_of_sums_larger_than_prev_sum = count_num_of_sums_larger_than_prev_sum s
-    putStrLn $ "The number of sums that are larger than the previous sum is: " ++ show num_of_sums_larger_than_prev_sum
-
-
-
-
+    let s' = map (\x -> read x :: Int) $ lines s
+    let s'' = tripleSums s'
+    let s''' = elementLargerThanPrevious s''
+    print s'''
