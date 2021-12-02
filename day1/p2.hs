@@ -1,9 +1,9 @@
-
 -- 199  A      
--- 200  A B    
--- 208  A B C  
+-- 200  A B
+-- 200  A B   ed amount :: Int in
 -- 210    B C D
 -- 200  E   C D
+-- s = position xs in
 -- 207  E F   D
 -- 240  E F G  
 -- 269    F G H
