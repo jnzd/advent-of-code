@@ -30,6 +30,7 @@
 
 # Use the binary numbers in your diagnostic report to calculate the gamma rate and epsilon rate, then multiply them together. What is the power consumption of the submarine? (Be sure to represent your answer in decimal, not binary.)
 
+
 with open("in.txt", "r") as f:
     values = list(map(list, f.read().splitlines()))
     inverted = list(map(list, list(zip(*values[::-1]))))
@@ -38,5 +39,3 @@ with open("in.txt", "r") as f:
     gammRate = int("".join(map(str, mostCommon)), 2)
     epsilonRate = int("".join(map(str, leastCommon)), 2)
     print(gammRate * epsilonRate)
-    # print(mostCommon[::-1])
-    # print(list('10101'))
