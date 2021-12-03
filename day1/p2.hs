@@ -37,7 +37,9 @@ tripleSums (x:y:z:xs) = (x + y + z) : tripleSums (y:z:xs)
 elementLargerThanPrevious :: [Int] -> Int
 elementLargerThanPrevious [] = 0
 elementLargerThanPrevious [x] = 0
-elementLargerThanPrevious (x:y:xs) = if x < y then 1 + elementLargerThanPrevious (y:xs) else elementLargerThanPrevious (y:xs)
+elementLargerThanPrevious (x:y:xs)
+    | x < y = 1 + elementLargerThanPrevious (y:xs)
+    | otherwise = elementLargerThanPrevious (y:xs)
 
 main :: IO ()
 main = do
