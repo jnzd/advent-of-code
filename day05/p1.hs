@@ -37,18 +37,33 @@
 
 -- Consider only horizontal and vertical lines. At how many points do at least two lines overlap?
 
+import Data.List
 
+-- format lines of form "x1,y1 -> x2,y2" into ((x1::Int,y1::Int), (x2::Int,y2::Int))
+formatInput :: String -> ((Int, Int), (Int, Int))
+formatInput s =
+    let x1 = read $ takeWhile (/= ',') s
+        s' = drop 1 $ dropWhile (/= ',') s
+        y1 = read $ takeWhile (/= ' ') s'
+        s'' = drop 4 $ dropWhile (/= ' ') s'
+        x2 = read $ takeWhile (/= ',') s''
+        s''' = drop 1 $ dropWhile (/= ',') s''
+        y2 = read $ takeWhile (/= ' ') s'''
+    in ((x1, y1), (x2, y2))
+
+pointsCovered :: ((Int, Int), (Int, Int)) -> [(Int, Int)]
+pointsCovered ((x1, y1), (x2, y2))
+    | x1 == x2  = [(x1, y) | y <- [min y1 y2 .. max y1 y2]]
+    | y1 == y2  = [(x, y1) | x <- [min x1 x2 .. max x1 x2]]
+    | otherwise = []
 
 main :: IO()
 main = do
+    -- input <- readFile "in-sample.txt"
     input <- readFile "in.txt"
     let vents = lines input
-    -- split lines of form "x1,y1 -> x2,y2" into x1,y1 and x2,y2
-    -- let points = map (\x -> (read (head (words x)), read (last (words x)))) vents
-    
-    -- split input into lines
-    -- let lines = lines input
-    -- format line of  form (x1,y1) -> (x2,y2) to (x1,y1,x2,y2)
-    -- let lines' = map (\x -> (read $ takeWhile (/= ',') x, read $ dropWhile (/= ',') x, read $ dropWhile (/= '>') x, read $ dropWhile (/= ',') $ dropWhile (/= '>') x)) lines
-    print vents
-    print "Hello World"
+    let formattedVents = map formatInput vents
+    let filteredVents = filter (\((x1,y1), (x2,y2)) -> x1 == x2 || y1 == y2) formattedVents
+
+    let coveredPoints = filter (\x -> length x > 1) $ groupBy (\(x1,y1) (x2,y2) -> x1 == x2 && y1 == y2) $ sort $ concatMap pointsCovered filteredVents
+    print $ length coveredPoints
