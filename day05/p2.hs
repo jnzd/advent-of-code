@@ -39,11 +39,20 @@ pointsCovered :: ((Int, Int), (Int, Int)) -> [(Int, Int)]
 pointsCovered ((x1, y1), (x2, y2))
     | x1 == x2  = [(x1, y) | y <- [min y1 y2 .. max y1 y2]]
     | y1 == y2  = [(x, y1) | x <- [min x1 x2 .. max x1 x2]]
+    | x1 <= x2 && y1 <= y2 = 
+        [(min x1 x2 + i, min y1 y2 + i) | i <- [0 .. max x1 x2 - min x1 x2]]
+    | x1 <= x2 && y1 >= y2 = 
+        [(min x1 x2 + i, max y1 y2 - i) | i <- [0 .. max x1 x2 - min x1 x2]]
+    | x1 >= x2 && y1 <= y2 = 
+        [(max x1 x2 - i, min y1 y2 + i) | i <- [0 .. max x1 x2 - min x1 x2]]
+    | x1 >= x2 && y1 >= y2 = 
+        [(max x1 x2 - i, max y1 y2 - i) | i <- [0 .. max x1 x2 - min x1 x2]]
     | otherwise = []
 
 main :: IO ()
 main = do
-    -- input <- readFile "in.txt"
-    input <- readFile "in-sample.txt"
+    input <- readFile "in.txt"
     let formattedVents = map formatInput $ lines input
-    print formattedVents
+
+    let coveredPoints = filter (\x -> length x > 1) $ groupBy (\(x1,y1) (x2,y2) -> x1 == x2 && y1 == y2) $ sort $ concatMap pointsCovered formattedVents
+    print $ length coveredPoints
