@@ -1,5 +1,5 @@
-.PHONY: p1
-p1:
+.PHONY: haskell
+haskell:
 	ghc --make -dynamic ./p1.hs
 	./p1
 
