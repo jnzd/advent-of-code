@@ -63,9 +63,8 @@ populationAfterDaysFast :: Int -> [Int] -> [Int]
 populationAfterDaysFast days fishOnDay
     | days == 0 = fishOnDay
     | otherwise = populationAfterDaysFast (days - 1) $
-                  (\x -> case x of 
-                            d0 : d1 : d2 : d3 : d4 : d5 : d6 : d7 : d8 : [] ->
-                              d1 : d2 : d3 : d4 : d5 : d6 : d7 + d0 : d8 : d0 : []) fishOnDay
+                  (\ [d0, d1, d2, d3, d4, d5, d6, d7, d8]
+                      -> [d1, d2, d3, d4, d5, d6, d7 + d0, d8, d0]) fishOnDay
 
 main :: IO ()
 main = do
