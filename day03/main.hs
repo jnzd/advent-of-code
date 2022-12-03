@@ -3,6 +3,9 @@ import System.IO
 solve_one :: [String] -> Int
 solve_one x = sum $ map (get_priority . get_duplicate) x
 
+solve_two :: [String] -> Int
+solve_two xs = sum $ map get_priority (map get_common_item (group xs))
+
 get_duplicate :: String -> Char
 get_duplicate x = go (take ((length x) `div` 2) x) (drop ((length x) `div` 2) x)
     where go (x:xs) ys = if x `elem` ys then x else go xs ys
@@ -12,10 +15,6 @@ items = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 get_priority :: Char -> Int
 get_priority x = head [i | (i, y) <- zip [1..] items, y == x]
-
-
-solve_two :: [String] -> Int
-solve_two xs = sum $ map get_priority (map get_common_item (group xs))
 
 group :: [String] -> [[String]]
 group [] = []
