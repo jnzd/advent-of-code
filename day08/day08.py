@@ -22,11 +22,7 @@ def part_two(x):
     c = [[len([x[k][j] for k in range(i) if all(x[l][j] < x[i][j] for l in range(k,i))]) if i > 0 else 0 for j in range(n)] for i in range(n)]
     c = [[c[i][j] + 1 if c[i][j] < i else c[i][j] for j in range(n)] for i in range(n)]
     d = [[len([x[k][j] for k in range(i+1,n) if all(x[l][j] < x[i][j] for l in range(i+1,k))]) if i < n-1 else 0 for j in range(n)] for i in range(n)]
-    a = [a[i][j] for i in range(n) for j in range(n)]
-    b = [b[i][j] for i in range(n) for j in range(n)]
-    c = [c[i][j] for i in range(n) for j in range(n)]
-    d = [d[i][j] for i in range(n) for j in range(n)]
-    return max([a[i]*b[i]*c[i]*d[i] for i in range(n*n)])
+    return max([a[i][j]*b[i][j]*c[i][j]*d[i][j] for i in range(n) for j in range(n)])
 
 # with open('./sample.txt') as f:
 with open('./in.txt') as f:
