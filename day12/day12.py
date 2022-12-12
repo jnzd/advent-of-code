@@ -2,10 +2,19 @@ def part_one(input):
     g = parse_input(input)
     d = dijkstra(g)
     return d
-    return g.nodes, g.start, g.end
 
 def part_two(input):
-    return 0
+    # should be using Floyd-Warshall, but this works (veryyyy slowly)
+    g = parse_input(input)
+    d_min = 2**32
+    nodes_a = [n for n in g.nodes if n.elevation == 'a']
+    for i, n in enumerate(nodes_a):
+        print(f'{i}/{len(nodes_a)}')
+        if n.elevation == 'a':
+            d = dijkstra(g, start=n)
+            if d is not None:
+                d_min = min(d_min, d)
+    return d_min
 
 def parse_input(input):
     N = len(input)
@@ -73,18 +82,24 @@ class Graph:
         self.start = start
         self.end = end
 
-def dijkstra(g: Graph):
-    n = g.start
+def dijkstra(g: Graph, start=None, end=None):
+    if start is None: start = g.start
+    if end is None: end = g.end
+    n = start
+    for node in g.nodes:
+        node.distance = None
     n.distance = 0
     visited = set()
     while len(visited) < len(g.nodes):
         n = min([n for n in g.nodes if n not in visited], key=lambda x: x.distance if x.distance is not None else 2**32)
+        if n.distance is None:
+            break
         visited.add(n)
         for m in n.neighbors:
             if m not in visited and (m.distance is None or m.distance > n.distance + 1):
                 m.distance = n.distance + 1
                 m.predecessor = n
-    return g.end.distance
+    return end.distance
 
 with open('./in.txt') as f:
 # with open('./sample.txt') as f:
