@@ -42,9 +42,7 @@ def sort(x):
     while not is_sorted(x):
         for i in range(0, len(x)-1):
             if not compare([x[i], x[i+1]]):
-                tmp = x[i+1]
-                x[i+1] = x[i]
-                x[i] = tmp
+                x[i], x[i+1] = x[i+1], x[i]
     return x
         
 def is_sorted(x):
