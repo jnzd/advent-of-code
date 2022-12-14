@@ -5,8 +5,6 @@ def part_one(x):
 def part_two(x):
     cave = parse_input(x)
     return cave.drop_sand_two()
-    return 0
-    return cave.slice_two
 
 def parse_input(x):
     lines = [line.split(' -> ') for line in x.split('\n')]
