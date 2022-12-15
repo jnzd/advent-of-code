@@ -46,10 +46,8 @@ def part_two(input):
             assert abs(x2-xs) + abs(y1-ys) == d
     
     for i, (x,y) in enumerate(points_directly_outside):
-        print(f'point {i+1} of {len(points_directly_outside)}')
         outside = True
         for i, (xs, ys, xb, yb) in enumerate(input):
-            print(f'   sensor {i+1} of {len(input)}')
             if abs(x-xs) + abs(y-ys) <= abs(xs-xb) + abs(ys-yb):
                 outside = False
                 break
